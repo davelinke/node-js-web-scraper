@@ -1,0 +1,11 @@
+{
+    "name": "Node.JS web scraper",
+    "version": "0.0.1",
+    "description": "A node.JS web/feed scraper I created to aggregate my activity on different social networks.",
+    "main": "scrape.js",
+    "author": "David Linke",
+    "dependencies": {
+        "scrape-it": "^3.3.3",
+        "xml2js": "^0.4.19"
+    }
+}
