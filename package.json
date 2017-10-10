@@ -10,5 +10,7 @@
     },
     "scripts": {
         "start": "node scrape.js"
-    }
+    },
+    "engines" : { "node" : ">=7.6" },
+    "engineStrict" : true
 }
