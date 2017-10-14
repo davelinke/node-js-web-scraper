@@ -64,6 +64,22 @@ module.exports = {
                     return zeDate.toISOString();
                 }
             }
+        },{
+            id: 'medium',
+            url: 'https://medium.com/feed/@davelinke',
+            type: 'xml',
+            itemsPath: 'rss > channel > 0 > item',
+            items: {
+                source: () => { return 'medium' },
+                image: (item) => { return false },
+                title: (item) => { return item['title'][0] },
+                url: (item) => { return item['link'][0] },
+                description: (item) => { return item['content:encoded'][0].split('<img src="https://medium.com/_/stat?event=post.clientViewed')[0].trim() },
+                date: (item) => {
+                    let zeDate = new Date(item['pubDate'][0]);
+                    return zeDate.toISOString();
+                }
+            }
         }
     ]
 };

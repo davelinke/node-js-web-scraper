@@ -119,6 +119,7 @@ const merge = async() => {
         let theScrape = await scrape[scrapeConfig.type](scrapeConfig);
         items = items.concat(theScrape.items);
     }
+    l('Post-processing info','box');
     //sort by date
     l('Sorting items','m');
     config.sort = ((typeof(config.sort)!='undefined')&&(config.sort==='asc'))?-1:1;
@@ -130,6 +131,7 @@ const merge = async() => {
         if(keyA > keyB) return -1*config.sort;
         return 0;
     });
+    //write file to disk
     fs.writeFile('output.json', JSON.stringify({ items: items }, null, 4), function(err) {
       l('Writing file','box');
       l('File successfully written! - Check your project directory for the output.json file','m');
