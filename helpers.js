@@ -1,9 +1,6 @@
-const scrapeIt = require("scrape-it");
-const fs = require('fs');
-const config = require('./config.js');
-
 // a function to log stuff onto the console.
-const l = (message,style)=>{
+
+const log = (message,style)=>{
   output ="";
   switch (style) {
     case ('box'):
@@ -25,7 +22,7 @@ const l = (message,style)=>{
 
 // a function to format the output of diverse scrapes and formats onto the format required by the output feed
 const formatJson = (json, what) => {
-    l('Formatting json for '+ what.id);
+    log('Formatting json for '+ what.id);
     const findItems = (route) => {
         var branches = route.split('>');
         let obj = json;
@@ -49,13 +46,13 @@ const formatJson = (json, what) => {
 };
 
 // https get with promises
-const getContent = function(url) {
+const getContent = (url) => {
     // return new pending promise
     return new Promise((resolve, reject) => {
         // select http or https module, depending on reqested url
         const lib = url.startsWith('https') ? require('https') : require('http');
         const request = lib.get(url, (response) => {
-            l('Retrieveing content from '+url);
+            log('Retrieveing content from '+url);
             // handle http errors
             if (response.statusCode < 200 || response.statusCode > 299) {
                 reject(new Error('Failed to load page, status code: ' + response.statusCode));
@@ -69,7 +66,7 @@ const getContent = function(url) {
         });
         // handle connection errors of the request
         request.on('error', (err) => reject(err))
-    })
+    });
 };
 
 // name says it all, comverts xml onto json
@@ -86,59 +83,9 @@ const xmlToJson = function(xml) {
     });
 };
 
-// the object containing the scraping functions
-const scrape = {
-    html: async(what) => {
-        l('Scraping '+what.id+' in HTML mode','m');
-        console.log('  Retrieveing Content from '+ what.url);
-        //for scrape-it docs visit https://github.com/IonicaBizau/scrape-it
-        return scrapeIt(what.url, {
-            items: {
-                listItem: what.itemsPath,
-                data: what.items
-            }
-        });
-    },
-    xml: async(what) => {
-        l('Scraping '+what.id+' in XML mode','m');
-        let theContent = await getContent(what.url);
-        let contentInJson = await xmlToJson(theContent);
-        return formatJson(contentInJson, what);
-    },
-    json: async(what) => {
-
-    }
+module.exports = {
+  log:log,
+  getContent:getContent,
+  xmlToJson:xmlToJson,
+  formatJson:formatJson
 }
-
-// the main funciton that calls scraping, conversion, sorting and writing routines.
-const merge = async() => {
-    let items = [];
-    l('Initializing scrape','box');
-    //scrape all sources
-    for (let scrapeConfig of config.scrapes) {
-        let theScrape = await scrape[scrapeConfig.type](scrapeConfig);
-        items = items.concat(theScrape.items);
-    }
-    l('Post-processing info','box');
-    //sort by date
-    l('Sorting items','m');
-    config.sort = ((typeof(config.sort)!='undefined')&&(config.sort==='asc'))?-1:1;
-    items.sort(function(a, b){
-        var keyA = new Date(a.date),
-            keyB = new Date(b.date);
-        // Compare the 2 dates
-        if(keyA < keyB) return config.sort;
-        if(keyA > keyB) return -1*config.sort;
-        return 0;
-    });
-    //write file to disk
-    fs.writeFile('output.json', JSON.stringify({ items: items }, null, 4), function(err) {
-      l('Writing file','box');
-      l('File successfully written! - Check your project directory for the output.json file','m');
-    });
-};
-
-// clear the screen
-console.log('\033[2J');
-// then start this thing
-merge();

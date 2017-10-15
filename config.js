@@ -1,4 +1,6 @@
 module.exports = {
+    scrapesDirectory:'./scrapes/',
+    outputDirectory:'./',
     scrapes: [{
             id: 'github',
             url: 'https://github.com/davelinke?tab=repositories',

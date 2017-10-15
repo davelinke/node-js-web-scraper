@@ -1,4 +1,5 @@
 node_modules
 bu
+scrapes
 package-lock.json
 output.json
