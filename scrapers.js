@@ -7,9 +7,9 @@ const xmlToJson = helpers.xmlToJson;
 const formatJson = helpers.formatJson;
 
 //html scraping
-const html = async(what) => {
-    l('Scraping '+what.id+' in HTML mode','m');
-    l('Retrieveing Content from '+ what.url);
+const html = async (what) => {
+    l('Scraping ' + what.id + ' in HTML mode', 'm');
+    l('Retrieveing Content from ' + what.url);
     //for scrape-it docs visit https://github.com/IonicaBizau/scrape-it
     return scrapeIt(what.url, {
         items: {
@@ -19,14 +19,14 @@ const html = async(what) => {
     });
 };
 
-const xml = async(what) => {
-    l('Scraping '+what.id+' in XML mode','m');
+const xml = async (what) => {
+    l('Scraping ' + what.id + ' in XML mode', 'm');
     let theContent = await getContent(what.url);
     let contentInJson = await xmlToJson(theContent);
     return formatJson(contentInJson, what);
 };
 
-const json = async(what) => {
+const json = async (what) => {
 
 };
 

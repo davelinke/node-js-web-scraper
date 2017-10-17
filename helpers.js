@@ -1,28 +1,29 @@
-// a function to log stuff onto the console.
+const fs = require('fs');
 
-const log = (message,style)=>{
-  output ="";
-  switch (style) {
-    case ('box'):
-      let horizontals = ''
-      let mLength = message.length;
-      for (let i=0;i<(mLength+2);i++){
-        horizontals += '═';
-      }
-      output += '\n╔' + horizontals + '╗\n' + '║ ' + message + ' ║' + '\n╚' + horizontals + '╝';
-      break;
-    case 'm':
-      output+='\n- '+message;
-      break;
-    default:
-      output = '  '+message;
-  }
-  console.log(output);
+// a function to log stuff onto the console.
+const log = (message, style) => {
+    output = "";
+    switch (style) {
+        case ('box'):
+            let horizontals = ''
+            let mLength = message.length;
+            for (let i = 0; i < (mLength + 2); i++) {
+                horizontals += '═';
+            }
+            output += '\n╔' + horizontals + '╗\n' + '║ ' + message + ' ║' + '\n╚' + horizontals + '╝';
+            break;
+        case 'm':
+            output += '\n- ' + message;
+            break;
+        default:
+            output = '  ' + message;
+    }
+    console.log(output);
 };
 
 // a function to format the output of diverse scrapes and formats onto the format required by the output feed
 const formatJson = (json, what) => {
-    log('Formatting json for '+ what.id);
+    log('Formatting json for ' + what.id);
     const findItems = (route) => {
         var branches = route.split('>');
         let obj = json;
@@ -52,7 +53,7 @@ const getContent = (url) => {
         // select http or https module, depending on reqested url
         const lib = url.startsWith('https') ? require('https') : require('http');
         const request = lib.get(url, (response) => {
-            log('Retrieveing content from '+url);
+            log('Retrieveing content from ' + url);
             // handle http errors
             if (response.statusCode < 200 || response.statusCode > 299) {
                 reject(new Error('Failed to load page, status code: ' + response.statusCode));
@@ -69,11 +70,23 @@ const getContent = (url) => {
     });
 };
 
+// read files asynchronously and return data in a promise
+const readFileAsync = function(filename) {
+    return new Promise(function(resolve, reject) {
+        fs.readFile(filename, function(err, data){
+            if (err) 
+                reject(err); 
+            else 
+                resolve(data);
+        });
+    });
+};
+
 // name says it all, comverts xml onto json
-const xmlToJson = function(xml) {
+const xmlToJson = function (xml) {
     return new Promise((resolve, reject) => {
         let parseString = require('xml2js').parseString;
-        let output = parseString(xml, function(err, result) {
+        let output = parseString(xml, function (err, result) {
             if (err) {
                 reject(err);
             } else {
@@ -84,8 +97,9 @@ const xmlToJson = function(xml) {
 };
 
 module.exports = {
-  log:log,
-  getContent:getContent,
-  xmlToJson:xmlToJson,
-  formatJson:formatJson
+    log: log,
+    getContent: getContent,
+    xmlToJson: xmlToJson,
+    formatJson: formatJson,
+    readFileAsync:readFileAsync
 }
