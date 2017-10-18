@@ -1,4 +1,3 @@
-const fs = require('fs');
 const config = require('./config.js');
 const scrape = require('./scrapers.js');
 const helpers = require('./helpers.js');
@@ -14,10 +13,8 @@ const merge = async () => {
     // create an array for the output items
     let items = [];
 
-    // check if directory for scrapes exists.
-    if (!fs.existsSync(config.scrapesDirectory)) {
-        fs.mkdirSync(config.scrapesDirectory);
-    }
+    // check if directory for scrapes exists. In not write it
+    let backupsDir = helpers.makeDirSync(config.scrapesDirectory);
 
     // loop through config sources and scrape
     for (let scrapeConfig of config.scrapes) {
@@ -27,13 +24,14 @@ const merge = async () => {
         let theScrape = await scrape[scrapeConfig.type](scrapeConfig).catch((err)=>{}) || false;
         // get data from backup
         if (!theScrape){
+            l('Retrieving content from backup');
             theScrape = JSON.parse(await helpers.readFileAsync(backupFilePath));
         } else {
             // write a backup in file system for the scraped data
-            fs.writeFile(backupFilePath, JSON.stringify(theScrape, null, 4), function (err) {
-                if (err) l(err);
-                l('Backing up ' + scrapeConfig.id + ' data');
-            });
+            l('Backing up ' + scrapeConfig.id + ' data');
+            if (await helpers.writeFileAsync(backupFilePath,JSON.stringify(theScrape, null, 4))){
+                l(scrapeConfig.id + ' data backed up successfully');
+            }
         }
 
 
@@ -62,10 +60,11 @@ const merge = async () => {
 
 
     //write all scrapes sorted to disk
-    fs.writeFile(config.outputDirectory + 'output.json', JSON.stringify({ items: items }, null, 4), function (err) {
-        l('Writing file', 'box');
-        l('File successfully written! - Check your project directory for the output.json file', 'm');
-    });
+    l('Writing file', 'box');
+    let outputFile = await helpers.writeFileAsync(config.outputDirectory + 'output.json',JSON.stringify({ items: items }, null, 4));
+    if (outputFile) {
+        l('Output successfully written! - Check your project directory for the output.json file\n\n', 'm');
+    }
 };
 
 // clear the screen

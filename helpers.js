@@ -81,6 +81,21 @@ const readFileAsync = function(filename) {
         });
     });
 };
+// writes files asynchronously and returns written value in promise
+const writeFileAsync = function(filename,contents){
+    return new Promise(function(resolve, reject) {
+        fs.writeFile(filename, contents, function (err) {
+            if (err) reject(err);
+            resolve(true);
+        });
+    });
+};
+
+// create directories asynchronously
+const makeDirSync = function(path){
+    if (!fs.existsSync(path)) fs.mkdirSync(path);
+    return true;
+}
 
 // name says it all, comverts xml onto json
 const xmlToJson = function (xml) {
@@ -101,5 +116,7 @@ module.exports = {
     getContent: getContent,
     xmlToJson: xmlToJson,
     formatJson: formatJson,
-    readFileAsync:readFileAsync
+    readFileAsync: readFileAsync,
+    writeFileAsync: writeFileAsync,
+    makeDirSync: makeDirSync
 }
