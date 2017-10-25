@@ -1,16 +1,30 @@
 {
     "name": "node-js-web-scraper",
-    "version": "0.0.1",
-    "description": "A node.JS web/feed scraper I created to aggregate my activity on different social networks.",
-    "main": "scrape.js",
-    "author": "David Linke",
+    "version": "0.1.0",
+    "description": "A node.JS web/feed scraper that aggregates data from around the web.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node demo.js",
+        "scrape": "node demo.js"
+    },
     "dependencies": {
+        "html-entities": "^1.2.1",
         "scrape-it": "^3.3.3",
         "xml2js": "^0.4.19"
     },
-    "scripts": {
-        "start": "node index.js"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/davelinke/node-js-web-scraper.git"
     },
-    "engines" : { "node" : ">=7.6" },
-    "engineStrict" : true
+    "keywords": [
+        "scraping",
+        "json",
+        "node"
+    ],
+    "author": "David Linke <davidlinke@gmail.com> (https://davelinke.github.io/)",
+    "license": "MIT",
+    "engines": {
+        "node": ">=7.6"
+    },
+    "engineStrict": true
 }

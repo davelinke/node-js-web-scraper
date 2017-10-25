@@ -1,6 +1,7 @@
 module.exports = {
     scrapesDirectory: './scrapes/',
-    outputDirectory: './',
+    outputDirectory: './output/',
+    outputFileName:'timeline.json',
     scrapes: [{
         id: 'github',
         url: 'https://github.com/davelinke?tab=repositories',
@@ -18,7 +19,10 @@ module.exports = {
             title: '[itemprop="name codeRepository"]',
             url: {
                 selector: '[itemprop="name codeRepository"]',
-                attr: 'href'
+                attr: 'href',
+                convert: x => {
+                    return 'https://github.com' + x;
+                }
             },
             description: '[itemprop="description"]',
             date: {
@@ -76,7 +80,14 @@ module.exports = {
             image: (item) => { return false },
             title: (item) => { return item['title'][0] },
             url: (item) => { return item['link'][0] },
-            description: (item) => { return item['content:encoded'][0].split('<img src="https://medium.com/_/stat?event=post.clientViewed')[0].trim() },
+            description: (item) => {
+                const Entities = require('html-entities').AllHtmlEntities;
+                const entities = new Entities();
+                let desc = item['content:encoded'][0].split('<img src="https://medium.com/_/stat?event=post.clientViewed')[0].trim();
+                desc = entities.decode(desc);
+                desc = desc.replace(/(<([^>]+)>)/ig,"");
+                return desc;
+            },
             date: (item) => {
                 let zeDate = new Date(item['pubDate'][0]);
                 return zeDate.toISOString();

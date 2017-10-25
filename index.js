@@ -1,11 +1,10 @@
-const config = require('./config.js');
 const scrape = require('./scrapers.js');
 const helpers = require('./helpers.js');
 
 const l = helpers.log;
 
 // the main funciton that calls scraping, conversion, sorting and writing routines.
-const merge = async () => {
+module.exports = async (config) => {
 
     // let's start
     l('Initializing scrape', 'box');
@@ -61,13 +60,10 @@ const merge = async () => {
 
     //write all scrapes sorted to disk
     l('Writing file', 'box');
-    let outputFile = await helpers.writeFileAsync(config.outputDirectory + 'output.json',JSON.stringify({ items: items }, null, 4));
+    const outputDir = helpers.makeDirSync(config.outputDirectory);
+    const outputFileName = config.outputFileName || 'output.json';
+    let outputFile = await helpers.writeFileAsync(config.outputDirectory + outputFileName,JSON.stringify({ items: items }, null, 4));
     if (outputFile) {
-        l('Output successfully written! - Check your project directory for the output.json file\n\n', 'm');
+        l('Output successfully written! - Check your project directory for the '+outputFileName+' file\n\n', 'm');
     }
 };
-
-// clear the screen
-console.log('\033[2J');
-// then start this thing
-merge();
