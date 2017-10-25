@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<channel>
+  <title><![CDATA[david linke]]></title>
+  <link>http://www.behance.net/davidlinke</link>
+  <description><![CDATA[david linke Personal RSS Feed]]></description>
+  <pubDate>Wed, 25 Oct 2017 19:50:09 +0000</pubDate>
+  <language>en-us</language>
+      <item>
+      <title><![CDATA[MigraineYogi.com]]></title>
+      <link><![CDATA[https://www.behance.net/gallery/53213963/MigraineYogicom]]></link>
+      <guid><![CDATA[https://www.behance.net/gallery/53213963/MigraineYogicom]]></guid>
+      <description><![CDATA[<img src='https://mir-s3-cdn-cf.behance.net/projects/404/11a0a553213963.Y3JvcCw5NDUsNzQwLDI4LDA.png' style='float:left; margin-right:15px;' /><br /> MigraineYogi.com is a small brochureware site i just did as a favor and allowed me to practice some UX and UI design concepts and techniques such as mobile first, animated interaction patterns and hardware accelerated CSS.]]></description>
+      <content:encoded><![CDATA[<img src='https://mir-s3-cdn-cf.behance.net/projects/404/11a0a553213963.Y3JvcCw5NDUsNzQwLDI4LDA.png' style='float:left; margin-right:15px;' /><br /> MigraineYogi.com is a small brochureware site i just did as a favor and allowed me to practice some UX and UI design concepts and techniques such as mobile first, animated interaction patterns and hardware accelerated CSS.]]></content:encoded>
+      <pubDate><![CDATA[Mon, 29 May 2017 22:10:07 +0000]]></pubDate>
+    </item>
+      <item>
+      <title><![CDATA[Pinocchio.us]]></title>
+      <link><![CDATA[https://www.behance.net/gallery/53208451/Pinocchious]]></link>
+      <guid><![CDATA[https://www.behance.net/gallery/53208451/Pinocchious]]></guid>
+      <description><![CDATA[<img src='https://mir-s3-cdn-cf.behance.net/projects/404/b9e29853208451.Y3JvcCwyMTYzLDE2OTMsMjEzLDA.png' style='float:left; margin-right:15px;' /><br /> A user interface prototyping applications]]></description>
+      <content:encoded><![CDATA[<img src='https://mir-s3-cdn-cf.behance.net/projects/404/b9e29853208451.Y3JvcCwyMTYzLDE2OTMsMjEzLDA.png' style='float:left; margin-right:15px;' /><br /> A user interface prototyping applications]]></content:encoded>
+      <pubDate><![CDATA[Mon, 29 May 2017 19:21:06 +0000]]></pubDate>
+    </item>
+  </channel>
+</rss>
